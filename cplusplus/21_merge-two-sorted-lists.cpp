@@ -76,6 +76,7 @@ public:
 
 
 
+//TODO:优化方法，当某一个链表为空时，不用再递归或者迭代了，直接将另一个非空链表放在next处即可
 
 int main(int argc, char ** argv) {
 	ListNode * l1 = new ListNode(18);
