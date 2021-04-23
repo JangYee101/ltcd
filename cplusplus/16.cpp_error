@@ -1,0 +1,77 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <stdlib.h>
+using namespace std;
+
+
+void showVector(vector<int>& nums) {
+    int size=nums.size(), i;
+    for(i=0;i<size;i++)
+        cout<< nums[i] << " ";
+    cout << endl;
+}
+
+
+
+class Solution {
+public:
+    vector<int> _sort(vector<int>& nums) {
+        int i, j, size = nums.size(), t;
+        for(i=1;i<size;i++) {
+            for(j=i;j>0;j--) {
+                if(nums[j] < nums[j-1]) {
+                    t = nums[j];
+                    nums[j] = nums[j-1];
+                    nums[j-1] = t;
+                }
+                else
+                    break;
+            }
+        }
+        return nums;
+    }
+
+
+    int threeSumClosest(vector<int>& nums, int target) {
+        int min_distance = 1<30, headI, midI, tailI, op=1;
+        int size = nums.size();
+        int cur_sum, cur_sum_pre;
+        _sort(nums);
+        for(headI=0;headI<size;headI++) {
+            for(midI=headI+1;midI<size;midI++) {
+                for(tailI=midI+1;tailI<size;tailI++) {
+                    cur_sum = nums[headI]+nums[midI]+nums[tailI] - target;
+                    if(cur_sum >= 0)
+                        break;
+                }
+                if(tailI-1>midI) {
+                    cur_sum_pre = -1 * (nums[headI]+nums[midI]+nums[tailI-1] - target);
+                    if(cur_sum_pre<cur_sum && cur_sum_pre < min_distance) {
+                        min_distance = cur_sum_pre;
+                        op = -1;
+                    }
+                }
+                if(cur_sum < 0)
+                    cur_sum *= -1;
+                if(cur_sum < min_distance) {
+                    min_distance = cur_sum;
+                    op = 1;
+                }
+            }
+        }
+        return min_distance + (op*target);
+    }
+
+};
+
+int main(int argc, char ** argv) {
+    int i,j;
+    vector<int> nums;
+    for(i =1;i< argc-1;i++) {
+        nums.push_back(atoi(argv[i]));
+    }
+	Solution solution;
+	cout << solution.threeSumClosest(nums, atoi(argv[argc-1])) << endl; 
+	return 0;
+}
