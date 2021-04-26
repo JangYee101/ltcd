@@ -1,10 +1,12 @@
 
-//#include <iostream>
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
+using namespace std;
 
 
-int maxNum(int *nums, int startI, int endI) {
+int maxNum(vector<int> & nums, int startI, int endI) {
     if(startI >=  endI)
         return 0;
     if(startI+1 == endI)
@@ -19,17 +21,25 @@ int maxNum(int *nums, int startI, int endI) {
         max_num = max_num>t?max_num:t;
     }
     return max_num;
-} 
-
-int rob(int* nums, int numsSize){
-    return maxNum(nums, 0, numsSize);
 }
 
-int main(int argc, char ** argv) {
-    int size=argc-1, i, *nums = (int *)malloc(sizeof(int)*size);
-    for(i=0;i<size;i++) {
-        nums[i] = atoi(argv[i+1]);
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+		return maxNum(nums, 0, nums.size());
     }
-    printf("%d\n", rob(nums, size));
+};
+
+int main(int argc, char ** argv) {
+    int size=argc-1, i;
+	vector<int> nums;
+    for(i=0;i<atoi(argv[1]);i++) {
+        //nums.push_back(atoi(argv[i+1]));
+        nums.push_back(i);
+    }
+    //for(i=0;i<nums.size();i++)
+    //    cout << nums[i] << endl;
+    Solution solution;
+    cout << solution.rob(nums) << endl;
     return 0;
 }
