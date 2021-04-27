@@ -33,6 +33,12 @@ public:
         return root;
     }
 
+    string _numsAt(vector<string>& nums, int index) {
+        if(nums.size()<=index)
+            return "null";
+        return nums[index];
+    }
+
     TreeNode* createLTree(vector<string> & nums) {
         int csize=1, size = nums.size(), preI;
         deque<TreeNode*> que;
@@ -44,12 +50,12 @@ public:
             for(int j=0;j<csize;j++) {
                 preI =  i+2*j;
                 father = que.front();
-                if(nums[preI] != "null") {
+                if(_numsAt(nums, preI) != "null") {
                     left = new TreeNode(atoi(nums[preI].c_str()));
                     father->left = left;
                     que.push_back(left);
                 }
-                if(nums[preI+1] != "null") {
+                if(_numsAt(nums, preI+1) != "null") {
                     right = new TreeNode(atoi(nums[preI+1].c_str()));
                     father->right = right;
                     que.push_back(right);
@@ -99,27 +105,35 @@ public:
             res.push_back(curv);
         }
     }
-	
 };
 
 class Solution {
 public:
-    bool comm(TreeNode * left, TreeNode *right) {
-        if(!(left || right))
-            return true;
-        if(!left || !right)
-            return false;
-        if(left->val != right->val)
-            return false;
-        return comm(left->left, right->right) && comm(left->right, right->left);
+    void tracertAllPath(TreeNode* root, vector<string>& res, vector<int>& path) {
+        int i, size;
+        if(root->left == NULL && root->right == NULL) {
+            string str_path = "";
+            size = path.size()
+            for(i=0;i<size-1;i++) {
+                str_path += to_string(path[i]);
+                str_path += "->";
+            }
+            str_path += to_string(path[i]);
+            return ;
+        }
+        if(root->left)
+            tracertAllPath(root->left, res, path);
+        if(root->right)
+            tracertAllPath(root->right, res, path);
     }
-    bool isSymmetric(TreeNode* root) {
-        if(!root) return true;
-        return comm(root->left, root->right);
+    
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> res;
+        vector<int> path;
+        tracertAllPath(root, res, path);
+        return res;
     }
 };
-
-
 
 int main(int argc, char ** argv) {
     vector<string> s1;
@@ -130,11 +144,9 @@ int main(int argc, char ** argv) {
     TreeNode * root = trt.createLTree(s1);
     trt.preList(root);
     Solution solution;
-    cout <<  solution.isSymmetric(root) << endl;
+    cout <<  solution.isBalanced(root) << endl;
 	return 0;
 }
-
-
 
 
 
