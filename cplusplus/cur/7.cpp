@@ -15,17 +15,6 @@ public:
     int sum;
     vector<int> path;
     vector<vector<int>> res;
-    void _mySort(vector<int>& nums){
-        int i, j, size = nums.size();
-        for(i=1;i<size;i++) {
-            for(j=i;j>=0;j--) {
-                if(nums[j-1]>nums[j])
-                    swap(nums[j-1], nums[j]);
-                else
-                    break;
-            }
-        }
-    }
     void backTrace(vector<int>&nums, int target, int startI) {
         int size = nums.size(), i;
         if(sum > target) return ;
@@ -33,20 +22,15 @@ public:
             res.push_back(path);
             return ;
         }
-        int tail=-1;
         for(i=startI;i<size;i++) {
-            if(tail != -1 && nums[i] == tail)
-                continue;
-            tail = nums[i];
             path.push_back(nums[i]);
             sum += nums[i];
-            backTrace(nums, target, i+1);
+            backTrace(nums, target, i);
             path.pop_back();
             sum -= nums[i];
         }
     }
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        _mySort(candidates);
         path.clear();
         res.clear();
         sum = 0;
